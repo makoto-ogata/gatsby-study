@@ -37,7 +37,7 @@ export default ({ data }) => (
         <div className="details">
           <div className="detail">
             <figure>
-              <Img fluid={data.fruit.childImageSharp.fluid} alt="" />
+              <Img fixed={data.fruit.childImageSharp.fixed} alt="" />
             </figure>
             <h3>フルーツ</h3>
             <p>FRUIT</p>
@@ -45,7 +45,7 @@ export default ({ data }) => (
           </div>
           <div className="detail">
             <figure>
-              <Img fluid={data.grain.childImageSharp.fluid} alt="" />
+              <Img fixed={data.grain.childImageSharp.fixed} alt="" />
             </figure>
             <h3>穀物</h3>
             <p>GRAIN</p>
@@ -53,7 +53,7 @@ export default ({ data }) => (
           </div>
           <div className="detail">
             <figure>
-              <Img fluid={data.beverage.childImageSharp.fluid} alt="" />
+              <Img fixed={data.beverage.childImageSharp.fixed} alt="" />
             </figure>
             <h3>飲み物</h3>
             <p>BEVERAGE</p>
@@ -115,22 +115,22 @@ export const query = graphql`
   }
   fruit: file(relativePath: {eq: "fruit.jpg"}) {
     childImageSharp {
-      fluid(maxWidth: 320) {
-        ...GatsbyImageSharpFluid_withWebp
+      fixed(width: 200) {
+        ...GatsbyImageSharpFixed_withWebp
       }
     }
   }
   grain: file(relativePath: {eq: "grain.jpg"}) {
     childImageSharp {
-      fluid(maxWidth: 320) {
-        ...GatsbyImageSharpFluid_withWebp
+      fixed(width: 200) {
+        ...GatsbyImageSharpFixed_withWebp
       }
     }
   }
   beverage: file(relativePath: {eq: "beverage.jpg"}) {
     childImageSharp {
-      fluid(maxWidth: 320) {
-        ...GatsbyImageSharpFluid_withWebp
+      fixed(width: 200) {
+        ...GatsbyImageSharpFixed_withWebp
       }
     }
   }
