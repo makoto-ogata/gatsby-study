@@ -10,6 +10,7 @@ module.exports = {
     title: `ESSENTIALS`,
     description: `おいしい食材と食事を探求するサイト`,
     lang: `ja`,
+    siteUrl: `https://stoic-haibt-3b0a0d.netlify.app`,
   },
   plugins: [
     `gatsby-transformer-sharp`,
