@@ -1,15 +1,29 @@
 import React from "react"
-import { graphql } from "gatsby";
+import { graphql } from "gatsby"
+import Img from "gatsby-image"
 import Layout from "../components/layout"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faFolderOpen } from "@fortawesome/free-regular-svg-icons";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faClock, faFolderOpen } from "@fortawesome/free-regular-svg-icons"
+import { faChevronLeft, faChevronRight, faCheckSquare } from "@fortawesome/free-solid-svg-icons"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+import { BLOCKS } from "@contentful/rich-text-types"
+
+const options = {
+  renderNode: {
+    [BLOCKS.HEADING_2]: (node, children) => (
+      <h2>
+        <FontAwesomeIcon icon={faCheckSquare} />
+        {children}
+      </h2>
+    )
+  }
+}
 
 export default ({ data }) => (
   <Layout>
     <div className="eyecatch">
       <figure>
-        <img src="images-baseblog/eyecatch.jpg" alt="アイキャッチ画像の説明" />
+        <Img fluid={data.contentfulBlogPost.eyecatch.fluid} alt={data.contentfulBlogPost.eyecatch.description} />
       </figure>
     </div>
     <article className="content">
@@ -31,9 +45,10 @@ export default ({ data }) => (
         </aside>
         <div className="postbody">
           <p>
-            記事の本文です。記事の本文です。記事の本文です。記事の本文です。記事の本文です。
-            記事の本文です。記事の本文です。記事の本文です。記事の本文です。記事の本文です。
-            記事の本文です。記事の本文です。記事の本文です。記事の本文です。記事の本文です。
+            {documentToReactComponents(
+              data.contentfulBlogPost.content.json,
+              options
+            )}
           </p>
         </div>
         <ul className="postlink">
@@ -65,6 +80,15 @@ export const query = graphql`
         category
         categorySlug
         id
+      }
+      eyecatch {
+        fluid(maxWidth: 1600) {
+          ...GatsbyContentfulFluid_withWebp
+        }
+        description
+      }
+      content {
+        json
       }
     }
   }
