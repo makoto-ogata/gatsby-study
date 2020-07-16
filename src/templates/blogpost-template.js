@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import Img from "gatsby-image"
 import Layout from "../components/layout"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -31,7 +31,7 @@ const options = {
   renderText: text => text.split('\n').flatMap((text, i) => [i > 0 && <br />, text])
 }
 
-export default ({ data }) => (
+export default ({ data, pageContext }) => (
   <Layout>
     <div className="eyecatch">
       <figure>
@@ -64,18 +64,22 @@ export default ({ data }) => (
           </p>
         </div>
         <ul className="postlink">
-          <li className="prev">
-            <a href="base-blogpost.html" rel="prev">
-              <FontAwesomeIcon icon={faChevronLeft} />
-              <span>前の記事</span>
-            </a>
-          </li>
-          <li className="next">
-            <a href="base-blogpost.html" rel="next">
-              <span>次の記事</span>
-              <FontAwesomeIcon icon={faChevronRight} />
-            </a>
-          </li>
+          {pageContext.next && (
+            <li className="prev">
+              <Link to={`/blog/post/${pageContext.next.slug}/`} rel="prev">
+                <FontAwesomeIcon icon={faChevronLeft} />
+                <span>{pageContext.next.title}</span>
+              </Link>
+            </li>
+          )}
+          {pageContext.previous && (
+            <li className="next">
+              <Link to={`/blog/post/${pageContext.previous.slug}/`} rel="next">
+                <span>{pageContext.previous.title}</span>
+                <FontAwesomeIcon icon={faChevronRight} />
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </article>
@@ -83,8 +87,8 @@ export default ({ data }) => (
 )
 
 export const query = graphql`
-  query {
-    contentfulBlogPost {
+  query($id: String!) {
+    contentfulBlogPost(id: { eq: $id }) {
       title
       publishDateJP: publishDate(formatString: "YYYY年 MM月 DD日")
       publishDate
