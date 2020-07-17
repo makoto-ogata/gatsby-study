@@ -20,7 +20,9 @@ export default props => {
   const title = props.pagetitle ? `${props.pagetitle} | ${data.site.siteMetadata.title}` : data.site.siteMetadata.title
   const description = props.pagedesc || data.site.siteMetadata.description
   const url = props.pagepath ? `${data.site.siteMetadata.siteUrl}${props.pagepath}` : data.site.siteMetadata.siteUrl
-  const imgurl = props.pageimg ? `${data.site.siteMetadata.siteUrl}${props.pageimg}` : `${data.site.siteMetadata.siteUrl}/thumb.jpg`
+  const imgurl = props.pageimg
+    ? `${data.site.siteMetadata.siteUrl}${props.pageimg}`
+    : props.blogimg || `${data.site.siteMetadata.siteUrl}/thumb.jpg`
   const imgw = props.pageimgw || 1280
   const imgh = props.pageimgh || 640
   return(
