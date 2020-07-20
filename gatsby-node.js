@@ -28,14 +28,31 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     reporter.panicOnBuild(`GraphQLのクエリでエラーが発生しました`)
   }
 
-  blogresult.data.allContentfulBlogPost.edges.forEach(({ node, next, previous }) => {
+  blogresult.data.allContentfulBlogPost.edges.forEach(
+    ({ node, next, previous }) => {
+      createPage({
+        path: `/blog/post/${node.slug}/`,
+        component: path.resolve(`./src/templates/blogpost-template.js`),
+        context: {
+          id: node.id,
+          next,
+          previous,
+        },
+      })
+    }
+  )
+
+  const blogPostsPerPage = 6
+  const blogPosts = blogresult.data.allContentfulBlogPost.edges.length
+  const blogPages = Math.ceil(blogPosts / blogPostsPerPage)
+
+  Array.from({length: blogPages}).forEach((_, i) => {
     createPage({
-      path: `/blog/post/${node.slug}`,
-      component: path.resolve(`./src/templates/blogpost-template.js`),
-      context: {
-        id: node.id,
-        next,
-        previous,
+      path: i === 0 ? `/blog/` : `/blog/${i + 1}/`,
+      component: path.resolve("./src/templates/blog-template.js"),
+      context : {
+        skip: blogPostsPerPage * i,
+        limit: blogPostsPerPage,
       },
     })
   })

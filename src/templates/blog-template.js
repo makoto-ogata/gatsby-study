@@ -36,11 +36,11 @@ export default ({ data, location }) => (
 )
 
 export const query = graphql`
-  query {
+  query($skip: Int!, $limit: Int!) {
     allContentfulBlogPost(
       sort: {order: DESC, fields: publishDate}
-      skip: 0
-      limit: 6
+      skip: $skip
+      limit: $limit
     ) {
       edges {
         node {
