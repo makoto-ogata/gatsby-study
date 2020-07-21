@@ -50,9 +50,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     createPage({
       path: i === 0 ? `/blog/` : `/blog/${i + 1}/`,
       component: path.resolve("./src/templates/blog-template.js"),
-      context : {
+      context: {
         skip: blogPostsPerPage * i,
         limit: blogPostsPerPage,
+        currentPage: i + 1,
+        isFirst: i + 1 === 1,
+        isLast: i + 1 === blogPages,
       },
     })
   })
