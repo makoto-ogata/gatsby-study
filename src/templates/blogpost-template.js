@@ -62,7 +62,11 @@ export default ({ data, pageContext, location }) => (
             <FontAwesomeIcon icon={faFolderOpen} />
             <ul>
               {data.contentfulBlogPost.category.map(cat => (
-                <li className={cat.categorySlug} key={cat.id}>{cat.category}</li>
+                <li className={cat.categorySlug} key={cat.id}>
+                  <Link to={`/cat/${cat.categorySlug}/`} >
+                    {cat.category}
+                  </Link>
+                </li>
               ))}
             </ul>
           </div>
